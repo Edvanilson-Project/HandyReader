@@ -1,5 +1,6 @@
 package com.wxn.reader.presentation.lookuphistory
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
@@ -33,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -40,6 +43,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wxn.reader.R
 import com.wxn.reader.navigation.LocalNavController
 import com.wxn.reader.presentation.sharedComponents.AppTopAppBar
+import com.wxn.reader.util.export.VocabularyExporter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,6 +56,7 @@ fun LookupHistoryScreen(
     var showSortMenu by remember { mutableStateOf(false) }
     var showBookFilter by remember { mutableStateOf(false) }
     var showLangFilter by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -66,6 +71,21 @@ fun LookupHistoryScreen(
                     }
                 },
                 actions = {
+                    // Exporta os termos exibidos (respeita filtros) em TSV compatível com o Anki
+                    IconButton(
+                        enabled = uiState.cards.isNotEmpty(),
+                        onClick = {
+                            val text = VocabularyExporter.exportToAnkiCsv(uiState.toVocabularyEntries())
+                            val send = Intent(Intent.ACTION_SEND).apply {
+                                type = "text/plain"
+                                putExtra(Intent.EXTRA_SUBJECT, "HandyReader - vocabulary (Anki)")
+                                putExtra(Intent.EXTRA_TEXT, text)
+                            }
+                            context.startActivity(Intent.createChooser(send, "Export for Anki"))
+                        }
+                    ) {
+                        Icon(Icons.Default.Share, contentDescription = "Export for Anki")
+                    }
                     Box {
                         IconButton(onClick = {
                             showSortMenu = true

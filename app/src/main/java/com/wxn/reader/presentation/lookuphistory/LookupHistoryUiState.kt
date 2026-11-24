@@ -34,3 +34,34 @@ data class LookupHistoryPosition(
     val sentenceText: String,
     val createdAt: Long
 )
+
+/**
+ * Converte os cartões exibidos (já filtrados/ordenados) em entradas de vocabulário
+ * para o [com.wxn.reader.util.export.VocabularyExporter]: uma linha por ocorrência (frase).
+ * Cartões sem posição registrada geram uma linha sem frase.
+ */
+fun LookupHistoryUiState.toVocabularyEntries(): List<com.wxn.reader.data.dto.BookVocabularyEntity> =
+    cards.flatMap { card ->
+        if (card.positions.isEmpty()) {
+            listOf(
+                com.wxn.reader.data.dto.BookVocabularyEntity(
+                    bookId = 0L,
+                    lang = card.lang,
+                    word = card.word,
+                    sentenceText = "",
+                    locator = "",
+                )
+            )
+        } else {
+            card.positions.map { pos ->
+                com.wxn.reader.data.dto.BookVocabularyEntity(
+                    bookId = pos.bookId,
+                    lang = card.lang,
+                    word = card.word,
+                    sentenceText = pos.sentenceText,
+                    locator = "",
+                    createdAt = pos.createdAt,
+                )
+            }
+        }
+    }
