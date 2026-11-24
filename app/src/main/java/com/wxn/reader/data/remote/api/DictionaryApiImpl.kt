@@ -18,7 +18,7 @@ class DictionaryApiImpl @Inject constructor(
 ) : DictionaryApi {
 
     override suspend fun lookup(word: String, lang: String): Result<BaseResponse<WordResult>> {
-        val primaryResult = BaseApi.get(
+        val primaryResult: Result<BaseResponse<WordResult>> = BaseApi.get<WordResult>(
             httpClient,
             "${Constants.DICTIONARY_BASE_URL}${ApiPath.API_DICTIONARY}",
             mapOf("word" to word, "lang" to lang),
@@ -47,7 +47,7 @@ class DictionaryApiImpl @Inject constructor(
                 val jsonString = response.bodyAsText()
                 val parsed = parseFreeDictionaryJson(word, jsonString)
                 if (parsed != null && parsed.hasResult) {
-                    Result.success(BaseResponse(code = 200, message = "OK", success = true, data = parsed))
+                    Result.success(BaseResponse(code = "200", message = "OK", success = true, data = parsed))
                 } else {
                     Result.failure(Exception("FreeDictionary: No definitions found"))
                 }

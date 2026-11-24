@@ -1000,6 +1000,8 @@ fun ReaderView(
             )
         }
         // 亮度手势条 (Left edge brightness gesture)
+        // Box próprio: este ponto está fora do BoxScope do container principal, então `.align` exige um Box aqui.
+        Box(modifier = Modifier.fillMaxSize()) {
         var isAdjustingBrightness by remember { mutableStateOf(false) }
         val currentBrightness by viewModel.brightness.collectAsStateWithLifecycle()
 
@@ -1042,6 +1044,7 @@ fun ReaderView(
                     modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp)
                 )
             }
+        }
         }
     }
 }

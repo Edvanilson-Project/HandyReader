@@ -8,7 +8,7 @@ package com.wxn.bookparser.impl
 internal val MOBI_FAMILY_EXTENSIONS = setOf("mobi", "azw3", "prc")
 
 /**
- * Comic Book 扩展名（CBZ/CBR 变体），TextParserImpl 与 FileParserImpl 的
- * when 分发共用同一集合。
+ * Comic Book 扩展名，TextParserImpl 与 FileParserImpl 的 when 分发共用同一集合。
+ * 仅 CBZ（ZIP 容器）；CBR 是 RAR 容器，java.util.zip.ZipFile 无法打开，故不在此列。
  */
-internal val CBZ_FAMILY_EXTENSIONS = setOf("cbz", "cbr")
+internal val CBZ_FAMILY_EXTENSIONS = setOf("cbz")

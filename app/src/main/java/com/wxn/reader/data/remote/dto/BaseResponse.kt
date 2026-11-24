@@ -3,21 +3,22 @@ package com.wxn.reader.data.remote.dto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 @Serializable
-open class BaseResponse<T> {
+open class BaseResponse<T>(
     @SerialName("success")
-    val success: Boolean? = false
+    val success: Boolean? = false,
 
     @SerialName("message")
-    val message: String? = null
+    val message: String? = null,
 
     @SerialName("detail")
-    val detail: String? = null
+    val detail: String? = null,
 
     @SerialName("code")
-    val code: String? = null
+    val code: String? = null,
 
     @SerialName("data")
-    val data: T? = null
+    val data: T? = null,
+) {
 
     val pagination : Pagination? = null
 

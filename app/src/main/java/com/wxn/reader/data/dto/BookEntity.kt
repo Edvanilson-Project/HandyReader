@@ -104,6 +104,7 @@ enum class FileType {
     MD,
     MOBI,
     AZW3,
+    CBZ,
     UNKNOWN;
 
     companion object {
@@ -133,6 +134,7 @@ enum class FileType {
             MD -> listOf("md")
             MOBI -> listOf("mobi")
             AZW3 -> listOf("azw3")
+            CBZ -> listOf("cbz")
             UNKNOWN -> emptyList()
         }
 
@@ -147,6 +149,7 @@ enum class FileType {
             MD -> "md"
             MOBI -> "mobi"
             AZW3 -> "azw3"
+            CBZ -> "cbz"
             UNKNOWN -> ""
         }
 
@@ -160,6 +163,7 @@ enum class FileType {
         MD -> "MD"
         MOBI -> "MOBI"
         AZW3 -> "AZW3"
+        CBZ -> "CBZ"
         UNKNOWN -> ""
     }
 }
