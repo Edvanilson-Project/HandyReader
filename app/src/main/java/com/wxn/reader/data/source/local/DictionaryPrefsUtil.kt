@@ -56,11 +56,8 @@ class DictionaryPrefsUtil @Inject constructor(context: Context) {
     }
 
     suspend fun canLookup(): Boolean {
-        val prefs = dataStore.data.first()
-        val today = LocalDate.now().toString()
-        val currentDate = prefs[LOOKUP_DATE] ?: ""
-        val currentCount = prefs[LOOKUP_COUNT] ?: 0
-        return currentDate != today || currentCount < DAILY_LIMIT
+        // Consultas ilimitadas para uso open-source e estudo intensivo de idiomas
+        return true
     }
 
     suspend fun incrementLookupCount() {

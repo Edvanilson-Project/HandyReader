@@ -114,11 +114,7 @@ fun StatisticsContent(
                     .fillMaxSize()
                     .padding(innerPadding)
                     .padding(horizontal = 16.dp)
-                    .then(
-                        if (appPreferences.isPremium) Modifier.verticalScroll(
-                            rememberScrollState()
-                        ) else Modifier
-                    )
+                    .verticalScroll(rememberScrollState())
                     .padding(vertical = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -571,45 +567,5 @@ fun StatisticsContent(
             }
         }
 
-        if (!appPreferences.isPremium) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
-                                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
-                                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 1f)
-                            )
-                        )
-                    )
-                    .zIndex(10f),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = stringResource(R.string.unlock_premium),
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = {
-                            navController.navigate(Screens.PremiumScreen.route)
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary
-                        )
-                    ) {
-                        Text(text = stringResource(R.string.unlock_premium))
-                    }
-                }
-            }
-        }
     }
 }

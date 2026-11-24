@@ -33,6 +33,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Colorize
 import androidx.compose.material.icons.filled.ContentCopy
@@ -87,6 +88,7 @@ import com.wxn.reader.domain.model.AnnotationType
 import com.wxn.reader.domain.model.BookAnnotation
 import com.wxn.reader.navigation.Screens
 import com.wxn.reader.presentation.mainReader.MainReadViewModel
+import com.wxn.reader.util.audio.QuickPronouncer
 import androidx.compose.ui.graphics.Color as ComposeColor
 
 
@@ -192,6 +194,11 @@ fun TextToolbar(
                         onDictionary = {
                             viewModel.onDictionaryClicked()
                         },
+                        onSpeak = {
+                            selectedText?.let { text ->
+                                QuickPronouncer.speak(context, text)
+                            }
+                        },
                         onCopy = {
                             selectedText?.let {
                                 context.sendToClip(it)
@@ -207,10 +214,7 @@ fun TextToolbar(
                         selectedAnnotation = selectedAnnotation,
                         onRemoveAnnotation = onRemoveAnnotation,
                         onCustomColorClick = {
-                            if (appPreferences.isPremium) isPaletteVisible = true
-                            else {
-                                navController.navigate(Screens.PremiumScreen.route)
-                            }
+                            isPaletteVisible = true
                         },
                         onColorSelected = { color ->
                             selectedColor = color
@@ -258,7 +262,7 @@ fun TextToolbar(
         }
     }
 
-    if (isPaletteVisible && appPreferences.isPremium) {
+    if (isPaletteVisible) {
         ColorPickerOverlay(
             selectedColor = selectedColor,
             controller = controller,
@@ -308,6 +312,7 @@ fun ActionButtons(
     onNote: () -> Unit,
     onTranslate: () -> Unit,
     onDictionary: () -> Unit,
+    onSpeak: () -> Unit,
     onCopy: ()->Unit,
     onSearch: () -> Unit,
     onShare: () -> Unit,
@@ -373,6 +378,14 @@ fun ActionButtons(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = onDictionary) {
                     Icon(Icons.AutoMirrored.Filled.MenuBook, contentDescription = "Dictionary")
+                }
+                VerticalDivider()
+            }
+        }
+        item {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = onSpeak) {
+                    Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = "Pronounce")
                 }
                 VerticalDivider()
             }

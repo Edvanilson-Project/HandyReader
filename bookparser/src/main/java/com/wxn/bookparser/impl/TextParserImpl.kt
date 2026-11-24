@@ -6,6 +6,7 @@ import com.wxn.base.bean.ReaderText
 import com.wxn.base.util.Logger
 import com.wxn.bookparser.TextParser
 import com.wxn.bookparser.domain.file.CachedFile
+import com.wxn.bookparser.parser.cbz.CbzTextParser
 import com.wxn.bookparser.parser.epub.EpubTextParser
 import com.wxn.bookparser.parser.html.HtmlTextParser
 import com.wxn.bookparser.parser.mobi.MobiTextParser
@@ -28,7 +29,8 @@ class TextParserImpl @Inject constructor(
     private val epubTextParser: EpubTextParser,
     private val htmlTextParser: HtmlTextParser,
     private val fb2TextParser: Fb2TextParser,
-    private val mobiTextParser: MobiTextParser
+    private val mobiTextParser: MobiTextParser,
+    private val cbzTextParser: CbzTextParser? = null
 ) : TextParser {
 
     /**
@@ -71,6 +73,10 @@ class TextParserImpl @Inject constructor(
 
                 in MOBI_FAMILY_EXTENSIONS -> {
                     mobiTextParser.parseChapterInfo(bookId, cachedFile)
+                }
+
+                in CBZ_FAMILY_EXTENSIONS -> {
+                    cbzTextParser?.parseChapterInfo(bookId, cachedFile) ?: emptyList()
                 }
 
                 "txt" -> {
@@ -120,6 +126,10 @@ class TextParserImpl @Inject constructor(
 
                 in MOBI_FAMILY_EXTENSIONS -> {
                     mobiTextParser.parsedChapterData(bookId, cachedFile, chapter)
+                }
+
+                in CBZ_FAMILY_EXTENSIONS -> {
+                    cbzTextParser?.parsedChapterData(bookId, cachedFile, chapter) ?: emptyList()
                 }
 
                 "txt" -> {
@@ -172,6 +182,10 @@ class TextParserImpl @Inject constructor(
                     mobiTextParser.getWordCount(bookId, cachedFile)
                 }
 
+                in CBZ_FAMILY_EXTENSIONS -> {
+                    cbzTextParser?.getWordCount(bookId, cachedFile) ?: emptyList()
+                }
+
                 "txt" -> {
                     txtTextParser.getWordCount(bookId, cachedFile)
                 }
@@ -220,6 +234,10 @@ class TextParserImpl @Inject constructor(
 
                 in MOBI_FAMILY_EXTENSIONS -> {
                     mobiTextParser.close(bookId, cachedFile)
+                }
+
+                in CBZ_FAMILY_EXTENSIONS -> {
+                    cbzTextParser?.close(bookId, cachedFile)
                 }
 
                 "txt" -> {

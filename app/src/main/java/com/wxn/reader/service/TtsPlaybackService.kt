@@ -660,12 +660,21 @@ class TtsPlaybackService : MediaSessionService() {
         override fun onSpeakNextChapter(nextChapterIndex: Int): Boolean {
             val current = ttsStateHolder.state.value
             val chapterSize = current.chapterSize
-            return if (nextChapterIndex >= chapterSize) {
-                false
-            } else {
-                serviceCallback.loadNextChapter(nextChapterIndex - 1)
-                true
+            if (nextChapterIndex >= chapterSize) {
+                return false
             }
+            serviceCallback.loadNextChapter(nextChapterIndex - 1)
+            // Dispara o carregador de capítulo em segundo plano de forma autônoma
+            ttsStateHolder.backgroundChapterLoader?.let { loader ->
+                scope.launch {
+                    try {
+                        loader.invoke(nextChapterIndex)
+                    } catch (e: Exception) {
+                        Logger.e("TtsPlaybackService::onSpeakNextChapter background load error: ${e.message}")
+                    }
+                }
+            }
+            return true
         }
 
         override fun onFinished(status: Int) {

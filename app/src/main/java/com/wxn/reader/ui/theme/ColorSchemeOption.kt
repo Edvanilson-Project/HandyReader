@@ -31,6 +31,7 @@ enum class ColorSchemeOption(
 ) {
     DYNAMIC("dynamic", R.string.theme_dynamic, null, null),
     DEFAULT("default", R.string.theme_monochrome, LightColorScheme, DarkColorScheme),
+    AMOLED("amoled", R.string.theme_amoled, LightColorScheme, AmoledDarkColorScheme),
     GREY("grey", R.string.theme_twilight, LightGreyScheme, DarkGreyScheme),
     SEPIA("sepia", R.string.theme_sepia, LightSepiaScheme, DarkSepiaScheme),
     PARCHMENT("parchment", R.string.theme_parchment, LightParchmentScheme, DarkParchmentScheme),

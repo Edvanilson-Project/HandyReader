@@ -110,6 +110,42 @@ val DarkColorScheme = darkColorScheme(
     outlineVariant = Color(0xFF424242),
     scrim = Color(0xFF000000),
 )
+
+val AmoledDarkColorScheme = darkColorScheme(
+    primary = Color(0xFFFFFFFF),
+    onPrimary = Color.Black,
+    primaryContainer = Color(0xFF1E1E1E),
+    onPrimaryContainer = Color(0xFFE0E0E0),
+    secondary = Color(0xFFBDBDBD),
+    onSecondary = Color.Black,
+    secondaryContainer = Color(0xFF2C2C2C),
+    onSecondaryContainer = Color(0xFFE0E0E0),
+    tertiary = Color(0xFF9E9E9E),
+    onTertiary = Color.Black,
+    tertiaryContainer = Color(0xFF1E1E1E),
+    onTertiaryContainer = Color(0xFFE0E0E0),
+    background = Color(0xFF000000),
+    onBackground = Color(0xFFEDEDED),
+    surface = Color(0xFF000000),
+    onSurface = Color(0xFFEDEDED),
+    surfaceVariant = Color(0xFF161616),
+    onSurfaceVariant = Color(0xFFBDBDBD),
+    surfaceContainerLowest = Color(0xFF000000),
+    surfaceContainerLow = Color(0xFF060606),
+    surfaceContainer = Color(0xFF0E0E0E),
+    surfaceContainerHigh = Color(0xFF161616),
+    surfaceContainerHighest = Color(0xFF222222),
+    surfaceTint = Color(0xFFFFFFFF),
+    inverseSurface = Color(0xFFEEEEEE),
+    inversePrimary = Color(0xFF000000),
+    error = Color(0xFFCF6679),
+    onError = Color.Black,
+    errorContainer = Color(0xFF93000A),
+    onErrorContainer = Color(0xFFFFDAD6),
+    outline = Color(0xFF424242),
+    outlineVariant = Color(0xFF212121),
+    scrim = Color(0xFF000000),
+)
 // endregion
 
 // region — Violet (Purple) — seed #7B1FA2 (Purple800)

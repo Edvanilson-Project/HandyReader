@@ -19,10 +19,12 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -54,6 +56,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -995,6 +998,50 @@ fun ReaderView(
                     viewModel.showClickAreaMode(-1, leftHandMode)
                 }
             )
+        }
+        // 亮度手势条 (Left edge brightness gesture)
+        var isAdjustingBrightness by remember { mutableStateOf(false) }
+        val currentBrightness by viewModel.brightness.collectAsStateWithLifecycle()
+
+        Box(
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .fillMaxHeight()
+                .width(28.dp)
+                .pointerInput(Unit) {
+                    detectVerticalDragGestures(
+                        onDragStart = { isAdjustingBrightness = true },
+                        onDragEnd = {
+                            isAdjustingBrightness = false
+                            viewModel.commitBrightness()
+                        },
+                        onDragCancel = { isAdjustingBrightness = false },
+                        onVerticalDrag = { change, dragAmount ->
+                            change.consume()
+                            val delta = -dragAmount / 400f
+                            val nextBrightness = (viewModel.brightness.value + delta).coerceIn(0.01f, 1.0f)
+                            viewModel.updateBrightness(nextBrightness)
+                        }
+                    )
+                }
+        )
+
+        if (isAdjustingBrightness) {
+            Surface(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(16.dp),
+                shape = RoundedCornerShape(16.dp),
+                color = MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.85f),
+                shadowElevation = 8.dp
+            ) {
+                Text(
+                    text = "☀ ${(currentBrightness * 100).toInt()}%",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.inverseOnSurface,
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp)
+                )
+            }
         }
     }
 }

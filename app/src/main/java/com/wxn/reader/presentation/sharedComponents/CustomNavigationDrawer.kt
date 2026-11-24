@@ -60,50 +60,6 @@ fun CustomNavigationDrawer(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        if (appPreferences!!.isPremium) {
-                            Image(
-                                painter = painterResource(id = R.drawable.crown),
-                                contentDescription = "Crown",
-                                modifier = Modifier
-                                    .size(if (isPortrait) 24.dp else 16.dp)
-                                    .offset(y = (if (isPortrait) 36 else 18).dp)
-                            )
-    //                        FilledTonalButton(
-    //                                contentPadding = PaddingValues(8.dp),
-    //                        onClick = {
-    //                        },
-    //                        modifier = Modifier
-    //                            .offset(y = (if (isPortrait) 36 else 18).dp)
-    //                        ) {
-    //                                Text("Connect to Google Drive", fontSize = 12.sp)
-    //                        }
-                        } else {
-                            FilledTonalButton(
-                                contentPadding = PaddingValues(8.dp),
-                                onClick = {
-                                    navController.navigate(Screens.PremiumScreen.route)
-                                },
-                                modifier = Modifier
-                                    .offset(y = (if (isPortrait) 36 else 18).dp)
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                                ) {
-                                    Image(
-                                        painter = painterResource(id = R.drawable.crown),
-                                        contentDescription = "Crown",
-                                        modifier = Modifier.size(if (isPortrait) 16.dp else 8.dp)
-                                    )
-                                    Text(stringResource(R.string.unlock_premium), fontSize = 12.sp)
-                                    Image(
-                                        painter = painterResource(id = R.drawable.crown),
-                                        contentDescription = "Crown",
-                                        modifier = Modifier.size(if (isPortrait) 16.dp else 8.dp)
-                                    )
-                                }
-                            }
-                        }
                         Image(
                             painter = painterResource(id = R.mipmap.ic_launcher_foreground),
                             contentDescription = "App Logo",

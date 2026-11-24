@@ -25,6 +25,18 @@ class TranslateRepositoryImpl @Inject constructor(
         private const val CACHE_DIR_NAME = "translate"
         private const val CACHE_FILE_NAME = "supported_languages.json"
         private const val CACHE_VALIDITY_DAYS = 7L
+
+        val DEFAULT_SUPPORTED_LANGUAGES = listOf(
+            SupportedLanguage("en", "English"),
+            SupportedLanguage("pt", "Português"),
+            SupportedLanguage("es", "Español"),
+            SupportedLanguage("fr", "Français"),
+            SupportedLanguage("de", "Deutsch"),
+            SupportedLanguage("ru", "Русский"),
+            SupportedLanguage("it", "Italiano"),
+            SupportedLanguage("ja", "日本語"),
+            SupportedLanguage("zh", "中文")
+        )
     }
 
     @Volatile
@@ -106,6 +118,7 @@ class TranslateRepositoryImpl @Inject constructor(
                 Logger.e("TranslateRepository: Failed to read fallback cache: ${e.message}")
             }
         }
-        return emptyList()
+        cachedLanguages = DEFAULT_SUPPORTED_LANGUAGES
+        return DEFAULT_SUPPORTED_LANGUAGES
     }
 }

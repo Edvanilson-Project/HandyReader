@@ -7,6 +7,8 @@ import com.wxn.bookparser.TextParser
 import com.wxn.bookparser.impl.FileParserImpl
 import com.wxn.bookparser.impl.TextParserImpl
 import com.wxn.bookparser.parser.audio.AudioFileParser
+import com.wxn.bookparser.parser.cbz.CbzFileParser
+import com.wxn.bookparser.parser.cbz.CbzTextParser
 import com.wxn.bookparser.parser.base.DocumentParser
 import com.wxn.bookparser.parser.base.MarkdownParser
 import com.wxn.bookparser.parser.epub.EpubFileParser
@@ -126,6 +128,14 @@ object ParserModule {
 
     @Provides
     @Singleton
+    fun provideCbzFileParser(context: Context): CbzFileParser = CbzFileParser(context)
+
+    @Provides
+    @Singleton
+    fun provideCbzTextParser(context: Context): CbzTextParser = CbzTextParser(context)
+
+    @Provides
+    @Singleton
     fun provideFileParser(
         context: Context,
         txtFileParser: TxtFileParser,
@@ -135,6 +145,7 @@ object ParserModule {
         htmlFileParser: HtmlFileParser,
         audioFileParser: AudioFileParser,
         mobiFileParser: MobiFileParser,
+        cbzFileParser: CbzFileParser,
     ): FileParser = FileParserImpl(
         context,
         txtFileParser,
@@ -143,7 +154,8 @@ object ParserModule {
         fb2FileParser,
         htmlFileParser,
         audioFileParser,
-        mobiFileParser
+        mobiFileParser,
+        cbzFileParser
     )
 
     @Provides
@@ -157,14 +169,16 @@ object ParserModule {
 
         htmlTextParser: HtmlTextParser,
         fb2TextParser: Fb2TextParser,
-        mobiTextParser: MobiTextParser
+        mobiTextParser: MobiTextParser,
+        cbzTextParser: CbzTextParser
     ): TextParser = TextParserImpl(
         txtTextParser,
         pdfTextParser,
         epubTextParser,
         htmlTextParser,
         fb2TextParser,
-        mobiTextParser
+        mobiTextParser,
+        cbzTextParser
     )
 
 }

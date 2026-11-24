@@ -34,6 +34,13 @@ class TtsStateHolder @Inject constructor(
 
     private val scope = Coroutines.scope()
 
+    /**
+     * Permite ao serviço em segundo plano (TtsPlaybackService) solicitar e carregar
+     * o próximo capítulo diretamente sem depender do ciclo de vida da interface gráfica (UI).
+     */
+    @Volatile
+    var backgroundChapterLoader: (suspend (nextChapterIndex: Int) -> Boolean)? = null
+
     // 私有状态，通过StateFlow暴露只读版本
     private val _state = MutableStateFlow(TtsState())
     val state: StateFlow<TtsState> = _state.asStateFlow()

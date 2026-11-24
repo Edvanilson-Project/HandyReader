@@ -77,13 +77,7 @@ fun ShelvesScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        if (shelvesState.let { it is ShelvesState.Success && it.shelves.isNotEmpty() } && !appPreferences!!.isPremium) {
-                            navController.navigate(Screens.PremiumScreen.route);
-//                            showPremiumModal = true
-//                            viewModel.purchasePremium(purchaseHelper)
-                        } else {
-                            showAddShelfDialog = true
-                        }
+                        showAddShelfDialog = true
                     },
                     content = {
                         Row(

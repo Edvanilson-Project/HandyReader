@@ -237,6 +237,7 @@
     <string name="theme_update_failed">Could not change the theme. Please try again.</string>
     <string name="theme_dynamic">Dynamic</string>
     <string name="theme_monochrome">Monochrome</string>
+    <string name="theme_amoled">AMOLED Black</string>
     <string name="theme_twilight">Twilight</string>
     <string name="theme_sepia">Sepia</string>
     <string name="theme_parchment">Parchment</string>

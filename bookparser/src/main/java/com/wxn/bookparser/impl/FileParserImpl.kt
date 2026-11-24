@@ -8,6 +8,7 @@ import com.wxn.base.bean.Book
 import com.wxn.bookparser.FileParser
 import com.wxn.bookparser.domain.file.CachedFile
 import com.wxn.bookparser.parser.audio.AudioFileParser
+import com.wxn.bookparser.parser.cbz.CbzFileParser
 import com.wxn.bookparser.parser.epub.EpubFileParser
 import com.wxn.bookparser.parser.fb2.Fb2FileParser
 import com.wxn.bookparser.parser.html.HtmlFileParser
@@ -27,6 +28,7 @@ class FileParserImpl @Inject constructor(
     private val htmlFileParser: HtmlFileParser,
     private val audioFileParser: AudioFileParser,
     private val mobiFileParser: MobiFileParser,
+    private val cbzFileParser: CbzFileParser = CbzFileParser(context),
 ) : FileParser {
 
     override suspend fun parse(file: DocumentFile): Book? {
@@ -47,6 +49,10 @@ class FileParserImpl @Inject constructor(
 
             in MOBI_FAMILY_EXTENSIONS -> {
                 mobiFileParser.parse(file)
+            }
+
+            in CBZ_FAMILY_EXTENSIONS -> {
+                cbzFileParser.parse(file)
             }
 
             "txt" -> {
@@ -102,6 +108,9 @@ class FileParserImpl @Inject constructor(
             }
             in MOBI_FAMILY_EXTENSIONS -> {
                 mobiFileParser.parse(cachedFile)
+            }
+            in CBZ_FAMILY_EXTENSIONS -> {
+                cbzFileParser.parse(cachedFile)
             }
             "txt" -> {
                 txtFileParser.parse(cachedFile)

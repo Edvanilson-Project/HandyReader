@@ -146,6 +146,12 @@ abstract class TTSController(
      * 初始化TTS状态监听
      */
     private fun initTtsStateListener() {
+        // Registra o loader para que o serviço em segundo plano possa solicitar capítulos
+        ttsStateHolder.backgroundChapterLoader = { nextChapterIndex ->
+            provideNextChapterToTts(nextChapterIndex)
+            true
+        }
+
         // 取消现有的监听
         ttsStateCollector?.cancel()
 
@@ -158,6 +164,7 @@ abstract class TTSController(
 
 
     open fun clear(ownerToken: Long? = null) {
+        ttsStateHolder.backgroundChapterLoader = null
         stopTts()
         ttsStateCollector?.cancel()
         ttsStateCollector = null
